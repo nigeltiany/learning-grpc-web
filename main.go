@@ -13,8 +13,8 @@ type echoServer struct {
 
 }
 
-func (s *echoServer) Echo (ctx context.Context, request *service.EchoRequest) (*service.EchoResponse,error) {
-	return &service.EchoResponse{ Message: request.Message }, nil
+func (s *echoServer) Echo (ctx context.Context, request *EchoService.EchoRequest) (*EchoService.EchoResponse,error) {
+	return &EchoService.EchoResponse{ Message: request.Message }, nil
 }
 
 
@@ -28,7 +28,7 @@ func main()  {
 	// create a gRPC server object
 	grpcServer := grpc.NewServer()
 	// attach the Ping service to the server
-	service.RegisterEchoServiceServer(grpcServer, &s)
+	EchoService.RegisterEchoServiceServer(grpcServer, &s)
 	// start the server
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)

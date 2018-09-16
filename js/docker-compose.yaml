@@ -1,0 +1,9 @@
+version: '3'
+services:
+  echo-server:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: gcr.io/confab-cloud/echo-client:latest
+    ports:
+      - "8081:8081"
