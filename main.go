@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/nigeltiany/grpc-web-learning/proto"
+	"github.com/nigeltiany/learning-grpc-web/proto"
 	"fmt"
 	"net"
 	"log"
