@@ -1,0 +1,9 @@
+version: '3'
+services:
+  echo-server:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: gcr.io/confab-cloud/echo-server:v1.0.2
+    ports:
+      - "9080:9080"
