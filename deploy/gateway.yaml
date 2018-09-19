@@ -4,19 +4,19 @@ metadata:
   name: echo-gateway
 spec:
   selector:
-    istio: ingressgateway # use Istio default gateway implementation
+    istio: ingressgateway # use istio default controller
   servers:
   - port:
-      number: 9080
-      name: grpc-gateway
-      protocol: GRPC
+      number: 80
+      name: http
+      protocol: HTTP
     hosts:
     - "*"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: echo
+  name: bookinfo
 spec:
   hosts:
   - "*"
@@ -25,9 +25,85 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /
+        exact: /productpage
+    - uri:
+        exact: /login
+    - uri:
+        exact: /logout
+    - uri:
+        prefix: /api/v1/products
+    route:
+    - destination:
+        host: productpage
+        port:
+          number: 9080
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: jsclient
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - echo-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /app
+    - uri:
+        prefix: /dist
+    - uri:
+        prefix: /client
+    route:
+    - destination:
+        host: echo-client
+        port:
+          number: 4567
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: echo-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - echo-gateway
+  http:
+  - match:
+    - uri:
+        exact: /echo/EchoService.EchoService/Echo
     route:
     - destination:
         host: echo
         port:
           number: 9080
+#---
+#apiVersion: networking.istio.io/v1alpha3
+#kind: DestinationRule
+#metadata:
+#  name: echo
+#spec:
+#  host: echo
+#  trafficPolicy:
+#    tls:
+#      mode: ISTIO_MUTUAL
+#  subsets:
+#  - name: v1
+#    labels:
+#      version: v1
+#---
+#apiVersion: networking.istio.io/v1alpha3
+#kind: DestinationRule
+#metadata:
+#  name: echo-client
+#spec:
+#  host: echo-client
+#  trafficPolicy:
+#    tls:
+#      mode: ISTIO_MUTUAL
+#  subsets:
+#  - name: v1
+#    labels:
+#      version: v1

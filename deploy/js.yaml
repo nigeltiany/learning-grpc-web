@@ -1,36 +1,36 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: echo
+  name: echo-client
   labels:
-    app: echo
+    app: echo-client
 spec:
   ports:
-    - port: 9080
-      name: grpc-echo
-      targetPort: 9080
-      protocol: TCP
+  - port: 4567
+    name: http
+    protocol: TCP
+    targetPort: 4567
   selector:
-    app: echo
+    app: echo-client
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: echo
+  name: echo-client
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: echo
+        app: echo-client
         version: v1
     spec:
       containers:
-      - name: echo
-        image: gcr.io/confab-cloud/echo-server:latest
+      - name: echo-client
+        image: gcr.io/confab-cloud/echojs:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 9080
+        - containerPort: 4567
   selector:
     matchLabels:
-      app: echo
+      app: echo-client

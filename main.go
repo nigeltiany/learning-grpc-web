@@ -14,6 +14,7 @@ type echoServer struct {
 }
 
 func (s *echoServer) Echo (ctx context.Context, request *EchoService.EchoRequest) (*EchoService.EchoResponse,error) {
+	log.Println(fmt.Sprintf("Handling request with payload: %v", request.Message))
 	return &EchoService.EchoResponse{ Message: request.Message }, nil
 }
 
@@ -30,7 +31,9 @@ func main()  {
 	// attach the Ping service to the server
 	EchoService.RegisterEchoServiceServer(grpcServer, &s)
 	// start the server
+	log.Println("server started")
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
 	}
+	log.Println("server death")
 }

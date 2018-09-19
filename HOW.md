@@ -1,10 +1,10 @@
-docker tag echo-server gcr.io/confab-cloud/echo-server:latest
+docker build -t gcr.io/confab-cloud/echo-server:latest .
 
-docker build -t echo-server .
-
-// docker-compose up --build
+docker build -t gcr.io/confab-cloud/echojs:latest .
 
 docker push gcr.io/confab-cloud/echo-server:latest
+
+docker push gcr.io/confab-cloud/echojs:latest
 
 
 protoc -I proto/ proto/service.proto --go_out=plugins=grpc:proto

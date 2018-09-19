@@ -12,7 +12,7 @@ const app = express();
 app.use('/dist', express.static(path.join(__dirname + '/dist')));
 app.use('/build', express.static(path.join(__dirname + '/build')));
 app.use('/client', express.static(path.join(__dirname + '/client')));
-app.get('/', (req, res) => {
+app.get('/app', (req, res) => {
     res.sendFile(path.join(__dirname + '/echotest.html'));
 });
 

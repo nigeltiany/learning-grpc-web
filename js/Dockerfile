@@ -1,19 +1,11 @@
-FROM grpcweb/common
+FROM node:7
 
-ARG EXAMPLE_DIR=/github/grpc-web/net/grpc/gateway/examples/echo
+WORKDIR /app
 
-RUN protoc -I=$EXAMPLE_DIR echo.proto \
---js_out=import_style=commonjs:\
-$EXAMPLE_DIR/commonjs-example \
---grpc-web_out=import_style=commonjs,mode=grpcwebtext:\
-$EXAMPLE_DIR/commonjs-example
+COPY package.json /app
+RUN npm install
+COPY . /app
 
-RUN cd $EXAMPLE_DIR/commonjs-example && \
-  npm install && \
-  npm link grpc-web && \
-  npx webpack && \
-  cp echotest.html /var/www/html && \
-  cp dist/main.js /var/www/html/dist
+CMD node server.js
 
-EXPOSE 8081
-CMD ["nginx"]
+EXPOSE 4567

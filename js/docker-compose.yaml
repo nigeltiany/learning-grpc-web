@@ -4,6 +4,6 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    image: gcr.io/confab-cloud/echo-client:latest
+    image: gcr.io/confab-cloud/echojs:latest
     ports:
-      - "8081:8081"
+      - "4567:4567"

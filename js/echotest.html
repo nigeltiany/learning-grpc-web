@@ -12,7 +12,7 @@
     <script src="client/app.js"></script>
     <script type="text/javascript">
         var EchoServiceClient = proto.EchoService.EchoServiceClient;
-        var echoService = new EchoServiceClient('http://35.238.124.119:9090', null, null);
+        var echoService = new EchoServiceClient('http://' + window.location.host +'/echo', null, null);
         var echoApp = new echoapp.EchoApp(
                 echoService,
                 {
